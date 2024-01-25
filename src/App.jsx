@@ -5,6 +5,7 @@ import { useState } from 'react'
 
 function App() {
   const [record , setRecord] = useState([]);
+  const [data , setData] = useState([]);
  
   useEffect(()=>{
 
@@ -20,19 +21,21 @@ function App() {
   },[])
 
 
-    const filterChange = (event)=>{
-      setData.filter((r)=>{
-        return(r.category.tolowerCase().include(event.target.value));
-      })
-    }
+  const filterProdcut = (e) =>{
+    setData(e.target.value);
+  }
+  let dataSearch = record.filter((item)=>{
+    return Object.keys(item).some(key=>
+      item[key].toString().toLowerCase().includes(data.toString().toLocaleLowerCase()));
+  })
 
   return (
 
     <div className='container'>
-      <input type="text" placeholder='search product' className='input'onChange={filterChange}/>
+      <input type="text" placeholder='search product' className='input'value={data} onChange={filterProdcut}/>
       <div className="cards">
         {
-          record.map((d,id)=>{
+          dataSearch.map((d,id)=>{
             return(
             <div className="card" key={id}>
           <img src={d.image} alt="" />
